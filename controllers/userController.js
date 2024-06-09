@@ -57,18 +57,6 @@ module.exports = {
         return res.status(404).json({ message: 'No such user exists' });
       }
 
-   /*    const thought = await Thought.findOneAndUpdate(
-        { user: req.params.id },
-        { $pull: { user: req.params.id } },
-        { new: true }
-      );
-
-      if (!thought) {
-        return res.status(404).json({
-          message: 'User deleted, but no thoughts found',
-        });
-      } */
-
       res.json({ message: 'User successfully deleted' });
     } catch (err) {
       console.log(err);
@@ -81,21 +69,18 @@ module.exports = {
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.id},
-        { $push: { friends: req.body } },
+        { $addToSet: { friends: req.params.friendId } },
         { runValidators: true, new: true }
-        .populate({path: 'friends', select: '-__v'})
-        .select('-__v')
       );
 
       if (!user) {
-        return res
-          .status(404)
-          .json({ message: 'No user found with that ID :(' });
+        return res.status(404).json({ message: 'No user found with that ID :(' });
       }
 
       res.json(user);
     } catch (err) {
       res.status(500).json(err);
+      console.log(err);
     }
   },
   // Remove friend from friends list
@@ -105,7 +90,6 @@ module.exports = {
         { _id: req.params.id },
         { $pull: { friends: req.params.friendId } },
         { runValidators: true, new: true }
-        .populate({path: 'friends', select: '-__v'})
       );
 
       if (!user) {

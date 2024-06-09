@@ -88,18 +88,18 @@ module.exports = {
   async addReaction(req, res){
     try {
       const reaction = Thought.findOneAndUpdate({
-        _id: req.params.id}, {$push: {reactions: req.body}},
-        {new: true, runValidators: true}
-        .populate({path: 'reactions', select: '-__v'})
-        .select('-__V'));
+        _id: req.params.id}, { $addToSet: { reactions: req.body } },
+        { runValidators: true, new: true });
 
         if (!reaction){
-          return res.status(404).json({ message: "Reaction failed to create"});
+          return res.status(404).json({ message: "No Thought with that ID found"});
         }
 
         res.json(reaction);
+
       } catch (error) {
-      res.status(500).json(err);
+        console.log(error);
+        res.status(500).json(error);
     }
   },
 

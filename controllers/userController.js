@@ -103,7 +103,7 @@ module.exports = {
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.id },
-        { $pull: { friends: req.body } },
+        { $pull: { friends: req.params.friendId } },
         { runValidators: true, new: true }
         .populate({path: 'friends', select: '-__v'})
       );

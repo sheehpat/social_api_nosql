@@ -1,14 +1,4 @@
-const { Schema, Types } = require('mongoose');
-
-
-//UPDATE THIS MODEL
-//UPDATE THIS MODEL
-
-//UPDATE THIS MODEL
-
-//UPDATE THIS MODEL
-
-//UPDATE THIS MODEL
+const { Schema, Types, model } = require('mongoose');
 
 
 const reactionSchema = new Schema(

@@ -1,44 +1,39 @@
 const { Schema, model } = require('mongoose');
-
-//UPDATE THIS MODEL
-//UPDATE THIS MODEL
-
-//UPDATE THIS MODEL
-
-//UPDATE THIS MODEL
+const reactionSchema = require('./Reaction');
 
 
 // Schema to create a thought model
 const thoughtSchema = new Schema(
   {
-    username: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
-      },
-    ],
     thoughtText: {
-      type: Boolean,
-      default: true,
+      type: String,
+      required: true,
+      minLength: 1,
+      maxLength: 280
     },
     createdAt: {
       type: Date,
       default: Date.now(),
     },
-    reactions: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'reaction',
-      },
-    ],
+    username: {
+      type: String,
+      required: true
+    },
+    reactions: [reactionSchema],
   },
   {
     toJSON: {
       virtuals: true,
+      getters: true
     },
     id: false,
   }
 );
+
+thoughtSchema.virtual("reactionCount").get(function () {
+  return this.reactions.length;
+});
+
 
 const Thought = model('thought', thoughtSchema);
 

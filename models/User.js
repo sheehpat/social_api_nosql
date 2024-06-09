@@ -1,35 +1,41 @@
 const { Schema, model } = require('mongoose');
-const friendSchema = require('./Friend');
-
-
-//ADD VALIDATION FOR THE EMAIL
-
-//UDPATE THIS MODEL
 
 // Schema to create User model
 const userSchema = new Schema(
   {
-    email: {
-      type: String,
-      required: true,
-      max_length: 50,
-    },
     username: {
       type: String,
       required: true,
       max_length: 50,
     },
-    friends: [friendSchema],
-    friendCount: {
-//ADD TO THIS SCHEMA
-    }
-  },
+    email: {
+      type: String,
+      required: true,
+      max_length: 50,
+    },
+    thoughts: [{
+      type: Schema.Types.ObjectId,
+      ref: "thought"
+    },
+  ],
+
+    friends : [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "user"
+      },
+    ],
+    },
   {
     toJSON: {
-      getters: true,
+      virtuals: true,
     },
   }
 );
+
+userSchema.virtual("friendCount").get(function () {
+  return this.friends.length;
+});
 
 const User = model('user', userSchema);
 

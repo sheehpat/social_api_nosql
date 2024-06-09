@@ -11,23 +11,20 @@ const { Schema, Types } = require('mongoose');
 //UPDATE THIS MODEL
 
 
-const friendSchema = new Schema(
+const reactionSchema = new Schema(
   {
-    assignmentId: {
+    reactionId: {
       type: Schema.Types.ObjectId,
       default: () => new Types.ObjectId(),
     },
-    assignmentName: {
+    reactionBody: {
       type: String,
       required: true,
-      maxlength: 50,
-      minlength: 4,
-      default: 'Unnamed assignment',
+      maxlength: 280,
     },
-    score: {
-      type: Number,
+    username: {
+      type: String,
       required: true,
-      default: () => Math.floor(Math.random() * (100 - 70 + 1) + 70),
     },
     createdAt: {
       type: Date,
@@ -42,4 +39,4 @@ const friendSchema = new Schema(
   }
 );
 
-module.exports = friendSchema;
+module.exports = reactionSchema;

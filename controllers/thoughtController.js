@@ -71,9 +71,7 @@ module.exports = {
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.id },
         { $set: req.body },
-        { runValidators: true, new: true }.populate({
-          path: 'reactions', select: '-__v'
-        }).select('-__V')
+        { runValidators: true, new: true }
       );
 
       if (!thought) {
